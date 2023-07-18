@@ -1,0 +1,41 @@
+<style>
+   .popup {
+        position: absolute;
+        top: 50px;
+        z-index: 10000;
+    }
+
+    .popWrap {
+        position: relative;
+        border: 1px solid pink;
+        padding: 1px;
+        display: inline-block;
+    } 
+</style>
+
+<div>
+    <h3>{{project.name}}</h3>
+
+    <div>
+        <ul>
+            <li>
+                <p>Boards in this project</p>
+                <ul>
+                    {% for project_board in project_boards %}
+                        <li><a href="{% url 'board' project_board.id %}">{{project_board.name}}</a></li>
+                    {% endfor %}
+                </ul>
+            </li>
+            <li>
+                <p><a href="">Issues</a></p>
+            </li>
+            <li>
+                <p><a href="">Activity</a></p>
+            </li>
+            {% if request.user == board.owner %}
+            <li><a href="">Edit board</a></li>
+            {% endif %}
+        </ul>
+    </div>
+
+</div>

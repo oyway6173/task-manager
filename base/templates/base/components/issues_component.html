@@ -1,0 +1,25 @@
+<div>
+    <div>
+        <h3>Issues</h3>
+        <a href="{% url 'create-issue' %}">Create</a>
+    </div>
+    <div>
+        <hr>
+        {% for issue in issues %}
+            <div>
+                <a href="{% url 'issue' issue.id%}">{{issue.name}}</a>
+                <span>created by @{{issue.reporter.username}}</span>
+            </div>
+            <div>
+                <span>It was created {{issue.created|timesince}} ago</span>
+            </div>
+            <div>
+                <span>And was commented by {{issue.participants.all.count}} user(s)</span>
+            </div>
+            <div>
+                <span>Project:  <a href="{% url 'board' issue.board.id %}">{{issue.project.name}}</a></span>
+            </div>
+            <hr>
+        {% endfor %}
+    </div>
+</div>

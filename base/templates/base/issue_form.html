@@ -1,0 +1,51 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<div>
+    <form method="POST" action="" >
+        {% csrf_token %}
+
+        <div>
+            <label for="">Name</label>
+            {{form.name}}
+        </div>
+        <div>
+            <label for="">Description</label>
+            {{form.description}}
+        </div>
+        <div>
+            <label for="issue_board">Board</label>
+            <input required type="text" name="board" list="board-list" id="" value="{{issue.board.name}}">
+            <datalist id="board-list">
+                <select name="" id="issue_board">
+                    {% for board in boards %}
+                        <option value="{{board.label}}">{{board.label}}</option>
+                    {% endfor %}
+                </select>
+            </datalist>
+        </div>
+        <div>
+            <label for="">Reporter</label>
+            {{form.reporter}}
+        </div>
+        <div>
+            <label for="">Assignee</label>
+            {{form.assignee}}
+        </div>
+        <div>
+            <label for="issue_project">Project</label>
+            <input required type="text" name="project" list="project-list" id="" value="{{issue.project.name}}">
+            <datalist id="project-list">
+                <select name="" id="issue_project">
+                    {% for project in projects %}
+                        <option value="{{project.name}}">{{project.name}}</option>
+                    {% endfor %}
+                </select>
+            </datalist>
+        </div>
+        <input type="submit" value="Submit">
+    </form>
+</div>
+
+{% endblock content %}

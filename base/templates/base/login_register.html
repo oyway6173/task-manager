@@ -1,0 +1,67 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<style>
+    .login-container {
+        text-align: center;
+    }
+    .invalid-credentials {
+        color: #c5311d;
+    }
+    .form-container {
+        flex-direction: column;
+        display: flex;
+    }
+    .register-container {
+        display: grid;
+        grid-template-columns: 2fr 1fr 2fr;
+    }
+</style>
+
+{% if page == 'login' %}
+    <div class="login-container">
+        {% if message %}
+
+        <div class="invalid-credentials">{{message}}</div>
+
+        {% endif %}
+        <form action="" method="post">
+            {% csrf_token %}
+
+            <label for="">Email:</label>
+            <input type="text" name="email" placeholder="Enter Email">
+            <label for="">Password:</label>
+            <input type="password" name="password" placeholder="Enter Password">
+
+            <input type="submit" value="Login">
+        </form>
+
+        <p>Haven't signed up yet?</p>
+        <a href="{% url 'register' %}">Sign Up</a>
+    </div>
+{% else %}
+    <div class="register-container">
+        <div></div>
+        <div>
+            {% if message %}
+
+                <div class="invalid-credentials">{{message}}</div>
+
+            {% endif %}
+            <form action="" method="post" class="form-container">
+                {% csrf_token %}
+
+                {% for field in form %}
+
+                    <label for="">{{field.label}}</label>
+                    {{field}}
+                {% endfor %}
+                <input type="submit" value="Register">
+            </form>
+        </div>
+        <div></div>
+    </div>
+{% endif %}
+
+{% endblock content %}

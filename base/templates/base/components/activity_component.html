@@ -1,0 +1,17 @@
+<div>
+    <div>
+        <h3>Recent Activity</h3>
+    </div>
+    <div>
+        {% for comment in issue_comments %}
+
+            <div>
+                <p>{{comment.user.name}} left a comment</p>
+                <p>"{{comment.body}}"</p>
+                <p>at <a href="{% url 'issue' comment.issue.id %}">{{comment.issue}}</a><br> {{comment.created|timesince}} ago</p>
+                <hr>
+            </div>
+
+        {% endfor %}
+    </div>
+</div>

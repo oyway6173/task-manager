@@ -1,0 +1,40 @@
+<style>
+    .board-container {
+        display: grid;
+        grid-template-columns: repeat( auto-fit, minmax(250px, 1fr) );
+        grid-row-gap: 20px;
+        grid-column-gap: 10px;
+        justify-content: center;
+        width: 100%;
+        margin: 0 auto;
+        list-style: none;
+    }
+    .item {
+        padding: 12px;
+        border: 1px solid black;
+        margin: 0px 5px;
+        border-radius: 5px;
+        
+    }
+</style>
+
+<div>
+    <h3>{{board.name}}</h3>
+    <div class="board-container">
+        {% for status in statuses %}
+            <div class="item">
+                <p>{{status.name}}</p>
+                <hr>
+                <div>
+                {% for issue in issues %}
+                    {% if issue.status == status %}
+                        <span>{{issue.project.name.upper}}-{{issue.id}}</span>
+                        <p><a href="{% url 'issue' issue.id %}">{{issue.name}}</a></p>
+                        <hr>
+                    {% endif %}
+                {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>

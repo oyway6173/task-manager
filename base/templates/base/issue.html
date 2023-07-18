@@ -1,0 +1,131 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+    <style>
+        .laneClass {
+            background-color: gainsboro;
+            width: 100%;
+            height: 0.1px;
+            border-top: 1px solid gainsboro;
+            border-left: 1px solid gainsboro;
+        }
+        .issue-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr
+        }
+    </style>
+
+    <div>
+        <h1>Issue <span>{{issue.name}}</span></h1>
+        <hr class="laneClass">
+    </div>
+    {% if request.user == issue.reporter %}
+
+    <div>
+        <div>
+            <a href="{% url 'update-issue' issue.id %}">Edit</a>
+            <a href="{% url 'delete-issue' issue.id %}">Delete</a>
+        </div>
+        <hr class="laneClass">
+    </div>
+    {% elif request.user == issue.assignee %}
+
+    <div>
+        <div>
+            <a href="{% url 'update-issue' issue.id %}">Edit</a>
+        </div>
+        <hr class="laneClass">
+    </div>
+
+    {% endif %}
+    
+
+    <div class="issue-container">
+        <div>
+            <div>
+                <h3>Details</h3>
+                <span>Status: {{issue.status.name}}</span>
+                <br>
+                <span>Project: {{issue.project.name}}-{{issue.id}}</span>
+                <br>
+                <span>Board: {{issue.board.name}}</span>
+                <br>
+                <span>Label: {{issue.board.label}}</span>
+            </div>
+            <div>
+                <h3>Description</h3>
+                <span>{{issue.description}}</span>
+            </div>
+            <div>
+                <h3>Attachments</h3>
+                <span>tba</span>
+            </div>
+            <div>
+                <h3>Activity</h3>
+                {% if issue_comments %}
+                    {% for comment in issue_comments %}
+                        <span>{{comment.user.name}} as <a href="">@{{comment.user.username}}</a> added comment {{comment.created|timesince}} ago</span>
+                        <br>
+                        <br>
+                        <span>{{comment.body}}</span>
+                        <br>
+                        {% if request.user == comment.user %}
+                            <a href="{% url 'delete-comment' comment.id %}">Delete</a>
+                        {% endif %}
+                        <hr class="laneClass">
+                    {% endfor %}
+                {% else %}
+                    <span>There are no comments in this issue yet.</span>
+                {% endif %}
+            </div>
+            {% if request.user.is_authenticated %}
+            <div>
+                <form action="" method="post">
+                    {% csrf_token %}
+
+                    <input name="body" type="text" placeholder="Write your message here..." />
+
+                </form>
+            </div>
+            {% endif %}
+        </div>
+
+
+
+        <div>
+            <div>
+                <h3>Dates</h3>
+                <span>Created: {{issue.created}}</span>
+                <br>
+                <span>Updated: {{issue.updated}}</span>
+            </div>
+            <div>
+                <h3>People</h3>
+                <h5>Important people</h5>
+                {% if issue.reporter.name %}
+                    <span>Reporter: <a href="">{{issue.reporter.name}}</a></span>
+                {% else %}
+                    <span>Reporter: <a href="">@{{issue.reporter.username}}</a></span>
+                {% endif %}
+                <br>
+                {% if issue.assignee.name %}
+                    <span>Assignee: <a href="">{{issue.assignee.name}}</a></span>
+                {% elif issue.assignee.username %}
+                    <span>Assignee: <a href="">@{{issue.assignee.username}}</a></span>
+                {% else %}
+                    <span>Assignee: None</span>
+                {% endif %}
+                <hr class="laneClass">
+                <h5>Participants</h5>
+                {% for participant in participants %}
+
+                    <span>{{participant.name}} as <a href="">@{{participant.username}}</a></span> 
+                    <br>
+                    <br>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}

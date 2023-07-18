@@ -1,0 +1,22 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<style>
+    .project-container {
+        display: grid;
+        grid-template-columns: 0.2fr 1fr;
+        margin: 30px 10px;
+    }
+</style>
+
+<div class="project-container">
+    <div>
+        {% include 'base/components/project_nav_component.html' %}
+    </div>
+    <div>
+        {% include 'base/components/board_component.html' %}
+    </div>
+</div>
+
+{% endblock content %}
