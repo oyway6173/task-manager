@@ -1,0 +1,16 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+    <div>
+        <h3>Boards</h3>
+        <ul>
+            {% for board in boards %}
+
+            <li><a href="{% url 'board' board.id %}">{{board.name}}</a></li>
+
+            {% endfor %}
+        </ul>
+    </div>
+
+{% endblock content %}

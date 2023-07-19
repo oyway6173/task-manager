@@ -9,7 +9,9 @@ urlpatterns = [
     path('logout/', views.logoutPage, name='logout'),
 
     path('issue/<str:pk>/', views.issue, name='issue'),
-    path('board/<str:pk>', views.board, name='board'),
+    path('issues/<str:pk>/', views.issues, name='issues'),
+    path('board/<str:pk>/', views.board, name='board'),
+    path('boards/', views.boards, name='boards'),
 
     path('create_issue/', views.createIssue, name='create-issue'),
 

@@ -6,7 +6,6 @@ from .forms import MyUserCreationForm, IssueCreationForm, IssueUpdateForm
 from django.db.models import Q 
 from django.http import HttpResponse
 
-
 # Create your views here.
 
 def loginPage(request):
@@ -58,6 +57,7 @@ def registerPage(request):
         'form': form    
     })
 
+
 @login_required(login_url='/login')
 def logoutPage(request):
     logout(request)
@@ -92,6 +92,7 @@ def home(request):
         'issue_comments': issue_comments
     }
     return render(request, 'base/home.html', context)
+
 
 @login_required(login_url='/login')
 def issue(request, pk):
@@ -232,3 +233,28 @@ def board(request, pk):
         'issues': issues
     }
     return render(request, 'base/project-board.html', context)
+
+
+def issues(request, pk):
+
+    project = Project.objects.get(id=pk)
+    project_boards = Board.objects.filter(project=project)
+    issues = Issue.objects.filter(project=project)
+
+    context = {
+        'project': project,
+        'issues': issues,
+        'project_boards': project_boards
+    }
+
+    return render(request, 'base/project-board.html', context)
+
+
+def boards(request):
+
+    boards = Board.objects.all()
+
+    context = {
+        'boards': boards
+    }
+    return render(request, 'base/boards.html', context)
